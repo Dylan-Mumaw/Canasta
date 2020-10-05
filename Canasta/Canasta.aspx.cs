@@ -11,16 +11,16 @@ namespace Canasta
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            List<Card> cardList = new List<Card>();
+            List<Card> deck = new List<Card>();
 
             // 4 players play with 5 decks of cards including 2 jokers in each
             for (int x = 0; x < 5; x++)
             {
                 // Arbitrarily decided red joker is diamonds and black joker is spades
                 Card jokerCard = new Card(Card.Value.Joker, Card.Suit.Diamonds);
-                cardList.Add(jokerCard);
+                deck.Add(jokerCard);
                 jokerCard = new Card(Card.Value.Joker, Card.Suit.Spades);
-                cardList.Add(jokerCard);
+                deck.Add(jokerCard);
 
                 foreach (Card.Suit cardSuit in Enum.GetValues(typeof(Card.Suit)))
                 {
@@ -32,12 +32,37 @@ namespace Canasta
                         }
 
                         Card card = new Card(cardValue, cardSuit);
-                        cardList.Add(card);
+                        deck.Add(card);
                     }
                 }
             }
 
-            foreach (Card card in cardList)
+            // Shuffles deck
+            Random rand = new Random();
+            List<Card> shuffledDeck = deck.OrderBy(card => rand.Next()).ToList();
+
+            // Displays shuffled deck
+            /*
+            foreach (Card card in shuffledDeck)
+            {
+                Image image = new Image();
+                image.ImageUrl = "Images/" + card.CardValue + card.CardSuit + ".png";
+                image.Height = 100;
+                TestImages.Controls.Add(image);
+            }
+            */
+
+            List<Card> yourHand = new List<Card>();
+            
+            // Transfers the last 15 cards from the shuffled deck to your hand
+            for(int x=0; x<15; x++)
+            {
+                yourHand.Add(shuffledDeck[shuffledDeck.Count-1]);
+                shuffledDeck.RemoveAt(shuffledDeck.Count - 1);
+            }
+
+            // Displays your hand
+            foreach (Card card in yourHand)
             {
                 Image image = new Image();
                 image.ImageUrl = "Images/" + card.CardValue + card.CardSuit + ".png";
