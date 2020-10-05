@@ -43,13 +43,13 @@ namespace Canasta
 
             // Displays shuffled deck
             
-            foreach (Card card in shuffledDeck)
+            /*foreach (Card card in shuffledDeck)
             {
                 Image image = new Image();
                 image.ImageUrl = "Images/" + card.CardValue + card.CardSuit + ".png";
                 image.Height = 100;
                 TestImages.Controls.Add(image);
-            }
+            }*/
             
 
             List<Card> yourHand = new List<Card>();
