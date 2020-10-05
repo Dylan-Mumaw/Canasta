@@ -52,7 +52,7 @@ namespace Canasta
             }
             */
 
-            List<Card> yourHand = new List<Card>();
+            /*List<Card> yourHand = new List<Card>();
             
             // Transfers the last 15 cards from the shuffled deck to your hand
             for(int x=0; x<15; x++)
@@ -68,7 +68,7 @@ namespace Canasta
                 image.ImageUrl = "Images/" + card.CardValue + card.CardSuit + ".png";
                 image.Height = 100;
                 TestImages.Controls.Add(image);
-            }
+            }*/
         }
     }
 }
