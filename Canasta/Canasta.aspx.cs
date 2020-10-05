@@ -42,7 +42,7 @@ namespace Canasta
             List<Card> shuffledDeck = deck.OrderBy(card => rand.Next()).ToList();
 
             // Displays shuffled deck
-            /*
+            
             foreach (Card card in shuffledDeck)
             {
                 Image image = new Image();
@@ -50,7 +50,7 @@ namespace Canasta
                 image.Height = 100;
                 TestImages.Controls.Add(image);
             }
-            */
+            
 
             List<Card> yourHand = new List<Card>();
             
