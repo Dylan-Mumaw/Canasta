@@ -10,6 +10,7 @@
     <form id="form1" runat="server">
         <asp:Panel ID="TestImages" runat="server">
         </asp:Panel>
+        <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
     </form>
 </body>
 </html>

@@ -69,6 +69,61 @@
   <ItemGroup>
     <Content Include="Canasta.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Images\AceClubs.png" />
+    <Content Include="Images\AceDiamonds.png" />
+    <Content Include="Images\AceHearts.png" />
+    <Content Include="Images\AceSpades.png" />
+    <Content Include="Images\CardBack.png" />
+    <Content Include="Images\EightClubs.png" />
+    <Content Include="Images\EightDiamonds.png" />
+    <Content Include="Images\EightHearts.png" />
+    <Content Include="Images\EightSpades.png" />
+    <Content Include="Images\FiveClubs.png" />
+    <Content Include="Images\FiveDiamonds.png" />
+    <Content Include="Images\FiveHearts.png" />
+    <Content Include="Images\FiveSpades.png" />
+    <Content Include="Images\FourClubs.png" />
+    <Content Include="Images\FourDiamonds.png" />
+    <Content Include="Images\FourHearts.png" />
+    <Content Include="Images\FourSpades.png" />
+    <Content Include="Images\JackClubs.png" />
+    <Content Include="Images\JackDiamonds.png" />
+    <Content Include="Images\JackHearts.png" />
+    <Content Include="Images\JackSpades.png" />
+    <Content Include="Images\JokerDiamonds.png" />
+    <Content Include="Images\JokerSpades.png" />
+    <Content Include="Images\KingClubs.png" />
+    <Content Include="Images\KingDiamonds.png" />
+    <Content Include="Images\KingHearts.png" />
+    <Content Include="Images\KingSpades.png" />
+    <Content Include="Images\NineClubs.png" />
+    <Content Include="Images\NineDiamonds.png" />
+    <Content Include="Images\NineHearts.png" />
+    <Content Include="Images\NineSpades.png" />
+    <Content Include="Images\QueenClubs.png" />
+    <Content Include="Images\QueenDiamonds.png" />
+    <Content Include="Images\QueenHearts.png" />
+    <Content Include="Images\QueenSpades.png" />
+    <Content Include="Images\SevenClubs.png" />
+    <Content Include="Images\SevenDiamonds.png" />
+    <Content Include="Images\SevenHearts.png" />
+    <Content Include="Images\SevenSpades.png" />
+    <Content Include="Images\SixClubs.png" />
+    <Content Include="Images\SixDiamonds.png" />
+    <Content Include="Images\SixHearts.png" />
+    <Content Include="Images\SixSpades.png" />
+    <Content Include="Images\TenClubs.png" />
+    <Content Include="Images\TenDiamonds.png" />
+    <Content Include="Images\TenHearts.png" />
+    <Content Include="Images\TenSpades.png" />
+    <Content Include="Images\ThreeClubs.png" />
+    <Content Include="Images\ThreeDiamonds.png" />
+    <Content Include="Images\ThreeHearts.png" />
+    <Content Include="Images\ThreeSpades.png" />
+    <Content Include="Images\TwoClubs.png" />
+    <Content Include="Images\TwoDiamonds.png" />
+    <Content Include="Images\TwoHearts.png" />
+    <Content Include="Images\TwoSpades.png" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -96,7 +151,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
