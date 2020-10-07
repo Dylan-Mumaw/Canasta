@@ -69,32 +69,9 @@ namespace Canasta
                 image.ImageUrl = "Images/" + card.CardValue + card.CardSuit + ".png";
                 image.Height = 100;
                 TestImages.Controls.Add(image);                
-                playerScore = playerScore + ComputeScore(card, playerScore);
+                playerScore = playerScore + card.PointValue;
                 TextBox1.Text = playerScore.ToString();
             }           
-        }
-        public static int ComputeScore(Card card, int playerScore)
-        {
-            playerScore = 0;           
-            if (card.CardValue.Equals(Card.Value.Three) || card.CardValue.Equals(Card.Value.Four) || card.CardValue.Equals(Card.Value.Five) || card.CardValue.Equals(Card.Value.Six) || card.CardValue.Equals(Card.Value.Seven))
-            {
-                playerScore = playerScore + 5;
-                return playerScore;
-            }
-            else if (card.CardValue.Equals(Card.Value.Eight) || card.CardValue.Equals(Card.Value.Nine) || card.CardValue.Equals(Card.Value.Ten) || card.CardValue.Equals(Card.Value.Jack) || card.CardValue.Equals(Card.Value.Queen) || card.CardValue.Equals(Card.Value.King))
-            {
-                playerScore = playerScore + 10;
-                return playerScore;
-            }
-            else if (card.CardValue.Equals(Card.Value.Two) || card.CardValue.Equals(Card.Value.Ace))
-            {
-                playerScore = playerScore + 20;
-                return playerScore;
-            }
-            else
-            {
-                return 0;
-            }
         }
     }
 }
