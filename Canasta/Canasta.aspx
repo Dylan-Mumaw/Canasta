@@ -11,6 +11,12 @@
         <asp:Panel ID="TestImages" runat="server">
         </asp:Panel>
         <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+        <br />
+        <asp:ImageButton ID="PickUpPileImage" runat="server" ImageUrl="~/Images/CardBack.png" Height="200" CausesValidation="False" OnClick="PickUpPileImage_Click" />
+        <br />
+        <asp:Label ID="PickUpPileLabel" runat="server" Text="Label"></asp:Label>
+        <br />
+        <asp:ImageButton ID="DiscardPileImage" runat="server" Height="200" />
     </form>
 </body>
 </html>
