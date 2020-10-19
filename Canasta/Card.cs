@@ -36,12 +36,14 @@ namespace Canasta
         private Value cardValue;
         private Suit cardSuit;
         private int pointValue;
+        private bool isSelected;
 
         public Card(Value cardValue, Suit cardSuit)
         {
             this.cardValue = cardValue;
             this.CardSuit = cardSuit;
             pointValue = ComputeScore();
+            this.isSelected = false;
         }
 
         public Value CardValue
@@ -75,6 +77,18 @@ namespace Canasta
             get
             {
                 return this.pointValue;
+            }
+        }
+
+        public bool IsSelected
+        {
+            get
+            {
+                return this.isSelected;
+            }
+            set
+            {
+                this.isSelected = value;
             }
         }
 
