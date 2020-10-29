@@ -82,6 +82,7 @@ namespace Canasta
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Response.Write("Players: " + Application["userCount"].ToString());
             //int[] playerScore = new int[numberOfHands];
             for (int i = 0; i < 4; i++)
             {
