@@ -18,20 +18,12 @@ namespace Canasta
         const int numberOfHands = 1;
         bool isSelecting = false;
         List<Card>[] hands = new List<Card>[numberOfHands];
+        List<Card> playableCards = new List<Card>();
+        List<Card> wildCards = new List<Card>();
+        bool isPlayableSelection = true;
 
         protected void Page_Init(object sender, EventArgs e)
         {
-        }
-
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            int[] playerScore = new int[numberOfHands];
-            for (int i = 0; i < 4; i++)
-            {
-                numberOfPlayers.Add(new Player("Player " + i.ToString()));
-            }
-            //List<Card>[] hands = new List<Card>[numberOfHands];
-
             // 4 players play with 5 decks of cards including 2 jokers in each
             for (int x = 0; x < 5; x++)
             {
@@ -49,16 +41,15 @@ namespace Canasta
                         {
                             continue;
                         }
-
                         Card card = new Card(cardValue, cardSuit);
                         deck.Add(card);
                     }
                 }
             }
 
+            //<---------ShufflesDeck------------>
             if (System.Web.HttpContext.Current.Session["deck"] == null)
             {
-                // Shuffles deck
                 Random rand = new Random();
                 shuffledDeck = deck.OrderBy(card => rand.Next()).ToList();
 
@@ -71,7 +62,6 @@ namespace Canasta
                         hands[x].Add(shuffledDeck[shuffledDeck.Count - 1]);
                         shuffledDeck.RemoveAt(shuffledDeck.Count - 1);
                     }
-
                     Session.Add("deck", shuffledDeck);
                     Session.Add("hand" + (x + 1), hands[x]);
                 }
@@ -85,22 +75,27 @@ namespace Canasta
                 }
             }
 
-            DisplayPlayerCards(hands[0]);
-
-            //Pickup Pile may not be needed, able to use shuffled deck
-            PickUpPileLabel.Text = shuffledDeck.Count.ToString();
-
+            //<---------Creates Discard Pile------------>
             discardPile.Add(shuffledDeck.First());
             DiscardPileImage.ImageUrl = "Images/" + discardPile.First().CardValue + discardPile.First().CardSuit + ".png";
         }
 
-        protected void PickUpPileImage_Click(object sender, ImageClickEventArgs e)
+        protected void Page_Load(object sender, EventArgs e)
         {
-            hands[0].Add(shuffledDeck[shuffledDeck.Count - 1]);
-            shuffledDeck.RemoveAt(shuffledDeck.Count - 1);
-            
+            //int[] playerScore = new int[numberOfHands];
+            for (int i = 0; i < 4; i++)
+            {
+                numberOfPlayers.Add(new Player("Player " + i.ToString()));
+            }
+            for (int x = 0; x < hands.Count(); x++)
+            {
+                DisplayPlayerCards(hands[x]);
+            }
+            PickUpPileLabel.Text = shuffledDeck.Count.ToString();
         }
 
+        //<---------Selects card when clicked------------>
+        //<---------Calls DisplayPlayerCards method------------>
         void ImageButton_Click(object sender, ImageClickEventArgs e)
         {
             ImageButton clickedCardImage = new ImageButton();
@@ -115,7 +110,7 @@ namespace Canasta
             List<Card> hand = new List<Card>();
             hand = (List<Card>)Session["hand1"];
 
-            if(hand[clickedCardIndex].IsSelected == false)
+            if (hand[clickedCardIndex].IsSelected == false)
             {
                 hand[clickedCardIndex].IsSelected = true;
             }
@@ -130,8 +125,6 @@ namespace Canasta
             DisplayPlayerCards(hand);
 
             Response.Redirect(Request.RawUrl);
-
-            //TextBox1.Text = "Clicked card was " + hand[clickedCardIndex].CardValue + " of " + hand[clickedCardIndex].CardSuit;
         }
 
         void DisplayPlayerCards(List<Card> hand)
@@ -151,71 +144,17 @@ namespace Canasta
                     ID = "Player" + (x + 1) + "Score",
                     Text = playerScore[x].ToString()
                 };
-                
-                TestImages.Controls.Add(textbox);
-                TestImages.Controls.Add(new LiteralControl("<br />"));
-            }
-            
-            /*
-            // Displays your hand
-            for (int playerIndex = 0; playerIndex < hands.Length; playerIndex++)
-            {
-                playerScore[playerIndex] = 0;
-                int cardIndex = 0;
-
-                foreach (Card card in hands[playerIndex])
-                {
-                    System.Web.UI.HtmlControls.HtmlGenericControl cardDiv =
-                        new System.Web.UI.HtmlControls.HtmlGenericControl("div");
-
-                    cardDiv.ID = "Player" + (playerIndex + 1) + "Card" + (cardIndex + 1) + "Container";
-                    cardDiv.Style.Add("display", "inline-block");
-                    cardDiv.Style.Add("position", "relative");
-                    cardDiv.Style.Add("padding-top", "4px");
-                    cardDiv.Style.Add("padding-bottom", "2px");
-                    cardDiv.Style.Add("padding-right", "5px");
-                    cardDiv.Style.Add("padding-left", "5px");
-                    cardDiv.Style.Add("margin-top", "20px");
-
-                    if (card.IsSelected == true)
-                    {
-                        cardDiv.Style.Add("bottom", "20px");
-                        cardDiv.Style.Add("background-color", "red");
-                    }
-
-                    //cardDiv.Style.Add("border-style", "solid");
-
-                    TestImages.Controls.Add(cardDiv);
-
-                    ImageButton image = new ImageButton
-                    {
-                        ID = "Player" + (playerIndex + 1) + "Card" + (cardIndex + 1),
-                        ImageUrl = "Images/" + card.CardValue + card.CardSuit + ".png",
-                        Height = 100
-                    };
-
-                    image.Click += new ImageClickEventHandler(ImageButton_Click);
-
-                    cardDiv.Controls.Add(image);
-                    playerScore[playerIndex] = playerScore[playerIndex] + card.PointValue;
-                    cardIndex++;
-                }
-
-                TextBox textbox = new TextBox
-                {
-                    ID = "Player" + (playerIndex + 1) + "Score",
-                    Text = playerScore[playerIndex].ToString()
-                };
 
                 TestImages.Controls.Add(textbox);
                 TestImages.Controls.Add(new LiteralControl("<br />"));
             }
-            */
 
+
+            //Displays your HAND
             int cardIndex = 0;
             List<System.Web.UI.HtmlControls.HtmlGenericControl> cardDivs = new List<System.Web.UI.HtmlControls.HtmlGenericControl>();
             List<Int32> selectedCardIndices = new List<int>();
-            bool isPlayableSelection = true;
+
 
             foreach (Card card in hand)
             {
@@ -223,17 +162,11 @@ namespace Canasta
                     new System.Web.UI.HtmlControls.HtmlGenericControl("div");
 
                 cardDiv.ID = "Player1Card" + (cardIndex + 1) + "Container";
-                cardDiv.Style.Add("display", "inline-block");
-                cardDiv.Style.Add("position", "relative");
-                cardDiv.Style.Add("padding-top", "4px");
-                cardDiv.Style.Add("padding-bottom", "2px");
-                cardDiv.Style.Add("padding-right", "5px");
-                cardDiv.Style.Add("padding-left", "5px");
-                cardDiv.Style.Add("margin-top", "20px");
+                cardDiv.Attributes.Add("class", "cardDiv");
 
                 if (card.IsSelected == true)
                 {
-                    cardDiv.Style.Add("bottom", "20px");
+                    cardDiv.Attributes.Add("class", "cardDiv cardDivSelected");
                     //selectedCards.Add(card);
                     selectedCardIndices.Add(cardIndex);
                     //cardDiv.Style.Add("background-color", "red");
@@ -245,7 +178,8 @@ namespace Canasta
                 {
                     ID = "Player1Card" + (cardIndex + 1),
                     ImageUrl = "Images/" + card.CardValue + card.CardSuit + ".png",
-                    Height = 100
+                    //Height = 100,
+                    CssClass = "imageButton"
                 };
 
                 image.Click += new ImageClickEventHandler(ImageButton_Click);
@@ -267,12 +201,9 @@ namespace Canasta
             }
             else
             {
-                List<Card> playableCards = new List<Card>();
-                List<Card> wildCards = new List<Card>();
-
                 foreach (int selectedCardIndex in selectedCardIndices)
                 {
-                    if(hand[selectedCardIndex].CardValue == Card.Value.Three)
+                    if (hand[selectedCardIndex].CardValue == Card.Value.Three)
                     {
                         isPlayableSelection = false;
                         break;
@@ -287,17 +218,17 @@ namespace Canasta
                     }
                 }
 
-                if(isPlayableSelection == true)
+                if (isPlayableSelection == true)
                 {
-                    if(wildCards.Count >= playableCards.Count)
+                    if (wildCards.Count >= playableCards.Count)
                     {
                         isPlayableSelection = false;
                     }
                     else
                     {
-                        for(int x=1; x<playableCards.Count; x++)
+                        for (int x = 1; x < playableCards.Count; x++)
                         {
-                            if(playableCards[0].CardValue != playableCards[x].CardValue)
+                            if (playableCards[0].CardValue != playableCards[x].CardValue)
                             {
                                 isPlayableSelection = false;
                                 break;
@@ -307,36 +238,58 @@ namespace Canasta
                 }
             }
 
-            if(isPlayableSelection == false)
+            if (isPlayableSelection == false)
             {
                 foreach (int selectedCardIndex in selectedCardIndices)
                 {
-                    cardDivs[selectedCardIndex].Style.Add("background-color", "red");
+                    cardDivs[selectedCardIndex].Attributes.Add("class", "cardDiv playableFalse");
                 }
             }
             else
             {
                 foreach (int selectedCardIndex in selectedCardIndices)
                 {
-                    cardDivs[selectedCardIndex].Style.Add("background-color", "green");
+                    cardDivs[selectedCardIndex].Attributes.Add("class", "cardDiv playableTrue");
                 }
             }
 
-            foreach(System.Web.UI.HtmlControls.HtmlGenericControl cardDiv in cardDivs)
+            foreach (System.Web.UI.HtmlControls.HtmlGenericControl cardDiv in cardDivs)
             {
                 TestImages.Controls.Add(cardDiv);
             }
+        }
 
-            //TestImages.Controls.Add(new LiteralControl("<br />"));
+        //<---------Button Click Methods------------>
+        protected void PickUpPileImage_Click(object sender, ImageClickEventArgs e)
+        {
+            hands[0].Add(shuffledDeck[shuffledDeck.Count - 1]);
+            shuffledDeck.RemoveAt(shuffledDeck.Count - 1);
+        }
 
-            /*
-            TextBox textbox = new TextBox
+        protected void MeldButton_Click(object sender, EventArgs e)
+        {
+            int cardIndex = 0;
+            List<Card> meld = new List<Card>();
+            if (isPlayableSelection == true)
             {
-                ID = "Player" + (playerIndex + 1) + "Score",
-                Text = playerScore[playerIndex].ToString()
-            };
-            TestImages.Controls.Add(textbox);
-            */
+                foreach (Card card in playableCards)
+                {
+                    meld.Add(card);
+                    hands[0].Remove(card);
+                    Image image = new Image
+                    {
+                        ID = "Player1Meld" + (cardIndex + 1),
+                        ImageUrl = "Images/" + card.CardValue + card.CardSuit + ".png",
+                        Height = 100
+                    };
+                }
+            }
+        }
+
+        protected void DiscardPileImage_Click(object sender, ImageClickEventArgs e)
+        {
+            hands[0].Add(discardPile.First());
+            discardPile.Clear();
         }
     }
 }
